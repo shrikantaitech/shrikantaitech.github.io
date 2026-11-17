@@ -74,12 +74,12 @@
     var WA_HREF = sourceText() ? WA + '?text=' + encodeURIComponent('Hello ShrikantAI Innovation.\n\nSource: ' + sourceText()) : WA;
     var TOPICS = [
       { k: ['ai agent', 'agent', 'automation', 'automate'], a: 'We build AI agents and automations around your own process, with clear rules for when a person takes over. See <a href="services.html#s1">AI Agents & Business Automation</a>.' },
-      { k: ['voice', 'call', 'calling', 'missed'], a: 'Our voice and calling workflows answer, collect the caller\'s details and pass them to your team. See <a href="services.html#s2">Voice AI & Calling</a>.' },
-      { k: ['whatsapp', 'message', 'chat'], a: 'We set up WhatsApp flows for enquiries, reminders and follow-ups, connected to your existing systems. See <a href="services.html#s3">WhatsApp Business Automation</a>.' },
+      { k: ['voice', 'call', 'calling', 'missed'], a: 'Our voice and calling workflows answer, collect the caller\'s details and pass them to your team. See <a href="services.html#s2">Voice AI Calling Agents</a>.' },
+      { k: ['whatsapp', 'message', 'chat'], a: 'We set up WhatsApp flows for enquiries, reminders and follow-ups, connected to your existing systems. See <a href="services.html#s3">WhatsApp AI Automation</a>.' },
       { k: ['crm', 'lead', 'workflow', 'pipeline'], a: 'We organise leads, stages and follow-ups in one workflow and automate the hand-offs. See <a href="services.html#s4">CRM & Workflow Automation</a>.' },
-      { k: ['clinic', 'dental', 'doctor', 'health', 'hospital', 'patient'], a: 'We build software around how a clinic works. ShrikantAI DentalDesk is a dental practice workflow solution currently in development. See <a href="index.html#solutions">Featured solutions</a>.' },
+      { k: ['clinic', 'dental', 'doctor', 'health', 'hospital', 'patient'], a: 'We build software around how a clinic works. ShrikantAI DentalDesk is a dental practice workflow solution currently in development. See <a href="products.html">our products</a>.' },
       { k: ['web', 'website', 'app', 'application', 'custom'], a: 'We design and build custom web applications for your workflow. See <a href="services.html#s6">Custom Web Application Development</a>.' },
-      { k: ['api', 'integration', 'integrate', 'consult'], a: 'We connect your tools through APIs and advise on which technology fits the problem. See <a href="services.html#s7">API Integration & Consulting</a>.' },
+      { k: ['api', 'integration', 'integrate', 'consult'], a: 'We connect your tools through APIs and advise on which technology fits the problem. See <a href="services.html#s7">API Integration & Business Consulting</a>.' },
       { k: ['process', 'how we work', 'how do you work', 'work', 'steps', 'start'], a: 'We work in six steps: Discover, Strategize, Design, Develop, Deploy and Improve. See <a href="index.html#process">How we work</a>.' },
       { k: ['price', 'pricing', 'cost', 'quote', 'budget', 'charge', 'fee', 'time', 'long', 'deadline'], a: 'Cost and timeline depend on the project, so we do not list fixed prices. Share your requirement on WhatsApp or the <a href="contact.html">contact form</a> and we will reply with an approach.' },
       { k: ['where', 'location', 'address', 'pune', 'office'], a: 'We are based in Pune, Maharashtra, India.' },
@@ -144,6 +144,8 @@
   var form = document.getElementById('enquiry-form');
   if (!form) return;
   var status = document.getElementById('form-status');
+  var pre = new URLSearchParams(location.search).get('service');
+  if (pre) { var sel = form.elements.service; Array.prototype.some.call(sel.options, function (o) { if (o.text === pre) { sel.value = o.value; return true; } }); }
   var rules = {
     name: function (v) { return v.length >= 2 ? '' : 'Enter your full name.'; },
     email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Enter a valid email address, for example name@company.com.'; },
