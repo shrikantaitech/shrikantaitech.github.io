@@ -6,6 +6,30 @@
   var toggle = document.querySelector('.toggle');
   var menu = document.getElementById('menu');
 
+  // Campaign tracking: keep UTM tags (or external referrer) for this browser session
+  // and add them to WhatsApp enquiries. Nothing is sent to any server by this site.
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  function clean(v) { return String(v).replace(/[\u0000-\u001f]/g, '').slice(0, 100); }
+  function readUtm() {
+    try {
+      var q = new URLSearchParams(location.search), found = {}, any = false;
+      UTM_KEYS.forEach(function (k) { var v = q.get(k); if (v) { found[k] = clean(v); any = true; } });
+      if (any) { found.landing = location.pathname; sessionStorage.setItem('sai_utm', JSON.stringify(found)); }
+      else if (!sessionStorage.getItem('sai_utm') && document.referrer) {
+        var host = new URL(document.referrer).hostname;
+        if (host && host !== location.hostname) sessionStorage.setItem('sai_utm', JSON.stringify({ utm_source: host, utm_medium: 'referral', landing: location.pathname }));
+      }
+      var saved = sessionStorage.getItem('sai_utm');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+  }
+  var UTM = readUtm();
+  function sourceText() {
+    if (!UTM) return '';
+    var t = [UTM.utm_source, UTM.utm_medium, UTM.utm_campaign, UTM.utm_term, UTM.utm_content].filter(Boolean).join(' / ');
+    return t ? t + (UTM.landing ? ' (landing: ' + UTM.landing + ')' : '') : '';
+  }
+
   // Dynamic year
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
@@ -45,6 +69,7 @@
       bot: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5v2h10V8H7zm0 4v2h7v-2H7z"/></svg>'
     };
     var WA = 'https://wa.me/' + WA_NUMBER;
+    var WA_HREF = sourceText() ? WA + '?text=' + encodeURIComponent('Hello ShrikantAI Innovation.\n\nSource: ' + sourceText()) : WA;
     var TOPICS = [
       { k: ['ai agent', 'agent', 'automation', 'automate'], a: 'We build AI agents and automations around your own process, with clear rules for when a person takes over. See <a href="services.html#s1">AI Agents & Business Automation</a>.' },
       { k: ['voice', 'call', 'calling', 'missed'], a: 'Our voice and calling workflows answer, collect the caller\'s details and pass them to your team. See <a href="services.html#s2">Voice AI & Calling</a>.' },
@@ -65,7 +90,7 @@
     fab.className = 'fab';
     fab.innerHTML =
       '<button class="fab-btn bot" type="button" data-tip="Ask a question" aria-label="Open assistant" aria-expanded="false" aria-controls="bot-panel">' + ICON.bot + '</button>' +
-      '<a class="fab-btn wa" href="' + WA + '" target="_blank" rel="noopener" data-tip="WhatsApp us" aria-label="Chat on WhatsApp">' + ICON.wa + '</a>' +
+      '<a class="fab-btn wa" href="' + WA_HREF + '" target="_blank" rel="noopener" data-tip="WhatsApp us" aria-label="Chat on WhatsApp">' + ICON.wa + '</a>' +
       '<a class="fab-btn call" href="tel:+919890964512" data-tip="Call +91 9890964512" aria-label="Call +91 9890964512">' + ICON.call + '</a>';
     var panel = document.createElement('div');
     panel.className = 'bot-panel'; panel.id = 'bot-panel';
@@ -85,7 +110,7 @@
       log.appendChild(d); log.scrollTop = log.scrollHeight;
     }
     function handoff(q) {
-      var t = 'Hello ShrikantAI Innovation, I have a question' + (q ? ': ' + q : '.');
+      var t = 'Hello ShrikantAI Innovation, I have a question' + (q ? ': ' + q : '.') + (sourceText() ? '\n\nSource: ' + sourceText() : '');
       return WA + '?text=' + encodeURIComponent(t);
     }
     function answer(q) {
@@ -157,7 +182,7 @@
       '',
       'Project description:',
       v('message')
-    ].join('\n');
+    ].concat(sourceText() ? ['', 'Source: ' + sourceText()] : []).join('\n');
     var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
     var w = window.open(url, '_blank', 'noopener');
     status.className = 'ok';
