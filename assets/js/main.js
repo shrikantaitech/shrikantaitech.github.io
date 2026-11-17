@@ -53,8 +53,8 @@
       { k: ['clinic', 'dental', 'doctor', 'health', 'hospital', 'patient'], a: 'We build software around how a clinic works. ShrikantAI DentalDesk is a dental practice workflow solution currently in development. See <a href="index.html#solutions">Featured solutions</a>.' },
       { k: ['web', 'website', 'app', 'application', 'custom'], a: 'We design and build custom web applications for your workflow. See <a href="services.html#s6">Custom Web Application Development</a>.' },
       { k: ['api', 'integration', 'integrate', 'consult'], a: 'We connect your tools through APIs and advise on which technology fits the problem. See <a href="services.html#s7">API Integration & Consulting</a>.' },
-      { k: ['process', 'how do you work', 'steps', 'start'], a: 'We work in six steps: Discover, Strategize, Design, Develop, Deploy and Improve. See <a href="index.html#process">How we work</a>.' },
-      { k: ['price', 'cost', 'quote', 'budget', 'charge', 'fee', 'time', 'long', 'deadline'], a: 'Cost and timeline depend on the project, so we do not list fixed prices. Share your requirement on WhatsApp or the <a href="contact.html">contact form</a> and we will reply with an approach.' },
+      { k: ['process', 'how we work', 'how do you work', 'work', 'steps', 'start'], a: 'We work in six steps: Discover, Strategize, Design, Develop, Deploy and Improve. See <a href="index.html#process">How we work</a>.' },
+      { k: ['price', 'pricing', 'cost', 'quote', 'budget', 'charge', 'fee', 'time', 'long', 'deadline'], a: 'Cost and timeline depend on the project, so we do not list fixed prices. Share your requirement on WhatsApp or the <a href="contact.html">contact form</a> and we will reply with an approach.' },
       { k: ['where', 'location', 'address', 'pune', 'office'], a: 'We are based in Pune, Maharashtra, India.' },
       { k: ['phone', 'email', 'contact', 'reach', 'number'], a: 'Phone: <a href="tel:+919890964512">+91 9890964512</a>. Email: <a href="mailto:shrikantmaid9@gmail.com">shrikantmaid9@gmail.com</a>.' },
       { k: ['service', 'offer', 'do you', 'what'], a: 'We offer AI agents, voice AI, WhatsApp automation, CRM workflows, clinic software, custom web apps and API integration. See <a href="services.html">all services</a>.' }
@@ -96,6 +96,7 @@
     function ask(q) { q = q.trim(); if (!q) return; add('u', q); setTimeout(function () { answer(q); }, 250); }
     function setOpen(o) {
       panel.classList.toggle('open', o);
+      fab.classList.toggle('hide', o);
       openBtn.setAttribute('aria-expanded', String(o));
       if (o) {
         if (!started) { started = true; add('b', 'Hello. Ask about our services, clinic software, process or how to reach us. Choose a topic or type a question.'); }
