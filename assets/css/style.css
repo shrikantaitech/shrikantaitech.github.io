@@ -203,3 +203,19 @@ footer p{color:#cfcdc5}
 .menu a.btn{padding:.75rem 1.5rem;font-size:1rem;font-weight:600;letter-spacing:.01em;background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(49,91,219,.32)}
 .menu a.btn:hover{background:var(--accent-dark);border-color:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(49,91,219,.4)}
 .menu a.btn:active{transform:translateY(0);box-shadow:0 3px 8px rgba(49,91,219,.3)}
+
+/* hamburger toggle */
+.toggle{width:46px;height:46px;padding:0;border-radius:50%;background:var(--ink);border-color:var(--ink);color:var(--paper);transition:background .25s,border-color .25s,transform .2s}
+.toggle:hover{background:var(--accent);border-color:var(--accent)}
+.toggle:active{transform:scale(.94)}
+.toggle[aria-expanded="true"]{background:var(--accent);border-color:var(--accent)}
+.bars{position:relative;display:block;width:20px;height:14px}
+.bars i{position:absolute;left:0;height:2px;border-radius:2px;background:currentColor;transition:transform .3s cubic-bezier(.2,.7,.2,1),width .25s,opacity .2s}
+.bars i:nth-child(1){top:0;width:20px}
+.bars i:nth-child(2){top:6px;width:13px}
+.bars i:nth-child(3){top:12px;width:20px}
+.toggle:hover .bars i:nth-child(2){width:20px}
+.toggle[aria-expanded="true"] .bars i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.toggle[aria-expanded="true"] .bars i:nth-child(2){opacity:0;width:0}
+.toggle[aria-expanded="true"] .bars i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (max-width:860px){.toggle{display:grid;place-items:center}}
