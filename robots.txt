@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shrikantaitech.github.io/sitemap.xml
