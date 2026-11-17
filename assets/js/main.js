@@ -42,9 +42,11 @@
   function setMenu(open) {
     menu.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.textContent = open ? 'Close' : 'Menu';
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   }
   if (toggle && menu) {
+    toggle.innerHTML = '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>';
+    toggle.setAttribute('aria-label', 'Open menu');
     toggle.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
     menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') setMenu(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
