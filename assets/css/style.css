@@ -16,7 +16,7 @@ h2{font-size:clamp(2rem,4.4vw,3.6rem)}
 h3{font-size:clamp(1.3rem,2vw,1.7rem)}
 p{margin:0 0 var(--s2);max-width:62ch}
 .wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 clamp(1.1rem,4vw,2.5rem)}
-.section{padding:clamp(3.5rem,9vw,var(--s6)) 0;border-top:1px solid var(--line)}
+.section{padding:clamp(3rem,7vw,5rem) 0;border-top:1px solid var(--line)}
 .section.dark{background:var(--ink);color:var(--paper);border-top:0}
 .section.dark .muted{color:#b5b3ab}
 .muted{color:var(--muted)}
@@ -131,8 +131,8 @@ footer p{color:#cfcdc5}
 .prose{max-width:70ch}.prose h2{font-size:1.7rem;margin-top:var(--s4)}
 .page-head{padding:clamp(3rem,8vw,6rem) 0 var(--s4)}
 
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
-.reveal.in{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.js .reveal.in{opacity:1;transform:none}
 
 @media (max-width:1024px){
   .sol{grid-template-columns:1fr}.sol article{border-right:0;border-bottom:1px solid var(--line)}.sol article:last-child{border-bottom:0}
@@ -162,5 +162,5 @@ footer p{color:#cfcdc5}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
+  .js .reveal{opacity:1;transform:none}
 }
