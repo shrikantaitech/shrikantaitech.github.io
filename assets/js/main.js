@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  document.documentElement.classList.add('js');
   var WA_NUMBER = '919890964512';
   var nav = document.querySelector('.nav');
   var toggle = document.querySelector('.toggle');
@@ -33,6 +34,8 @@
     }, { threshold: 0.12 });
     items.forEach(function (el) { io.observe(el); });
   } else { items.forEach(function (el) { el.classList.add('in'); }); }
+  // Safety net: never leave content hidden
+  setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
   // Enquiry form -> WhatsApp
   var form = document.getElementById('enquiry-form');
