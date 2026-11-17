@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   document.documentElement.classList.add('js');
-  var WA_NUMBER = '919890964512';
+  var WA_NUMBER = '917066100748';
   var nav = document.querySelector('.nav');
   var toggle = document.querySelector('.toggle');
   var menu = document.getElementById('menu');
@@ -83,7 +83,7 @@
       { k: ['process', 'how we work', 'how do you work', 'work', 'steps', 'start'], a: 'We work in six steps: Discover, Strategize, Design, Develop, Deploy and Improve. See <a href="index.html#process">How we work</a>.' },
       { k: ['price', 'pricing', 'cost', 'quote', 'budget', 'charge', 'fee', 'time', 'long', 'deadline'], a: 'Cost and timeline depend on the project, so we do not list fixed prices. Share your requirement on WhatsApp or the <a href="contact.html">contact form</a> and we will reply with an approach.' },
       { k: ['where', 'location', 'address', 'pune', 'office'], a: 'We are based in Pune, Maharashtra, India.' },
-      { k: ['phone', 'email', 'contact', 'reach', 'number'], a: 'Phone: <a href="tel:+919890964512">+91 9890964512</a>. Email: <a href="mailto:shrikantmaid9@gmail.com">shrikantmaid9@gmail.com</a>.' },
+      { k: ['phone', 'email', 'contact', 'reach', 'number'], a: 'Phone: <a href="tel:+917066100748">+91 7066100748</a>. Email: <a href="mailto:shrikantmaid9@gmail.com">shrikantmaid9@gmail.com</a>.' },
       { k: ['service', 'offer', 'do you', 'what'], a: 'We offer AI agents, voice AI, WhatsApp automation, CRM workflows, clinic software, custom web apps and API integration. See <a href="services.html">all services</a>.' }
     ];
     var CHIPS = ['Services', 'Clinic software', 'Pricing', 'How we work', 'Contact'];
@@ -93,7 +93,7 @@
     fab.innerHTML =
       '<button class="fab-btn bot" type="button" data-tip="Ask a question" aria-label="Open assistant" aria-expanded="false" aria-controls="bot-panel">' + ICON.bot + '</button>' +
       '<a class="fab-btn wa" href="' + WA_HREF + '" target="_blank" rel="noopener" data-tip="WhatsApp us" aria-label="Chat on WhatsApp">' + ICON.wa + '</a>' +
-      '<a class="fab-btn call" href="tel:+919890964512" data-tip="Call +91 9890964512" aria-label="Call +91 9890964512">' + ICON.call + '</a>';
+      '<a class="fab-btn call" href="tel:+917066100748" data-tip="Call +91 7066100748" aria-label="Call +91 7066100748">' + ICON.call + '</a>';
     var panel = document.createElement('div');
     panel.className = 'bot-panel'; panel.id = 'bot-panel';
     panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Website assistant');
