@@ -198,3 +198,8 @@ footer p{color:#cfcdc5}
 
 @media (max-width:860px){.hero-art{display:none}.hero p.lead{font-size:1.05rem}}
 @media (max-height:640px){.hero .label{margin-bottom:var(--s1)}.hero p.lead{margin-top:var(--s2)}.hero .btn-row{margin-top:var(--s2)}}
+
+/* nav CTA: beat ".menu a" padding so the button has proper size */
+.menu a.btn{padding:.75rem 1.5rem;font-size:1rem;font-weight:600;letter-spacing:.01em;background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(49,91,219,.32)}
+.menu a.btn:hover{background:var(--accent-dark);border-color:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(49,91,219,.4)}
+.menu a.btn:active{transform:translateY(0);box-shadow:0 3px 8px rgba(49,91,219,.3)}
