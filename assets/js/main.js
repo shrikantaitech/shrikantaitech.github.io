@@ -1,131 +1,94 @@
-/* ShrikantAI Innovation — main.js (vanilla JS, no dependencies) */
-
 (function () {
-  "use strict";
+  'use strict';
+  var WA_NUMBER = '919890964512';
+  var nav = document.querySelector('.nav');
+  var toggle = document.querySelector('.toggle');
+  var menu = document.getElementById('menu');
 
-  /* ---------- mobile navigation ---------- */
-  var toggle = document.querySelector(".nav-toggle");
-  var links = document.querySelector(".nav-links");
+  // Dynamic year
+  document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      var isOpen = links.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
+  // Scroll-aware nav
+  function onScroll() { if (nav) nav.classList.toggle('scrolled', window.scrollY > 8); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-    links.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        links.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
-    });
+  // Mobile menu
+  function setMenu(open) {
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? 'Close' : 'Menu';
+  }
+  if (toggle && menu) {
+    toggle.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+    menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') setMenu(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
   }
 
-  /* ---------- dynamic copyright year ---------- */
-  var yearEl = document.querySelector("[data-year]");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+  // Reveal on scroll (lightweight, below-the-fold only)
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) { io.observe(el); });
+  } else { items.forEach(function (el) { el.classList.add('in'); }); }
+
+  // Enquiry form -> WhatsApp
+  var form = document.getElementById('enquiry-form');
+  if (!form) return;
+  var status = document.getElementById('form-status');
+  var rules = {
+    name: function (v) { return v.length >= 2 ? '' : 'Enter your full name.'; },
+    email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Enter a valid email address, for example name@company.com.'; },
+    phone: function (v) { return /^\+?[\d\s\-()]{10,15}$/.test(v) ? '' : 'Enter a phone number with 10 to 15 digits.'; },
+    service: function (v) { return v ? '' : 'Choose the service you need.'; },
+    message: function (v) { return v.length >= 20 ? '' : 'Describe your project in at least 20 characters.'; }
+  };
+  function check(name) {
+    var f = form.elements[name], wrap = f.closest('.field'), msg = rules[name](f.value.trim());
+    wrap.classList.toggle('invalid', !!msg);
+    f.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    wrap.querySelector('.err').textContent = msg;
+    return !msg;
   }
+  Object.keys(rules).forEach(function (n) { form.elements[n].addEventListener('blur', function () { check(n); }); });
 
-  /* ---------- enquiry form: validate, then hand off to WhatsApp ---------- */
-  var WHATSAPP_NUMBER = "919890964512";
-  var form = document.querySelector(".enquiry");
-
-  if (form) {
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      var fields = {
-        name: form.querySelector("#name"),
-        business: form.querySelector("#business"),
-        email: form.querySelector("#email"),
-        phone: form.querySelector("#phone"),
-        requirement: form.querySelector("#requirement")
-      };
-
-      var isValid = true;
-
-      function markInvalid(input, invalid) {
-        var wrapper = input.closest(".field");
-        if (!wrapper) return;
-        wrapper.classList.toggle("invalid", invalid);
-      }
-
-      function isEmpty(input) {
-        return !input || input.value.trim().length === 0;
-      }
-
-      function isValidEmail(value) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      }
-
-      function isValidPhone(value) {
-        var digits = value.replace(/[^0-9]/g, "");
-        return digits.length >= 10;
-      }
-
-      // Required: name, email, requirement. Business + phone optional but validated if filled.
-      if (isEmpty(fields.name)) {
-        markInvalid(fields.name, true);
-        isValid = false;
-      } else {
-        markInvalid(fields.name, false);
-      }
-
-      if (isEmpty(fields.email) || !isValidEmail(fields.email.value.trim())) {
-        markInvalid(fields.email, true);
-        isValid = false;
-      } else {
-        markInvalid(fields.email, false);
-      }
-
-      if (fields.phone && fields.phone.value.trim().length > 0 && !isValidPhone(fields.phone.value.trim())) {
-        markInvalid(fields.phone, true);
-        isValid = false;
-      } else if (fields.phone) {
-        markInvalid(fields.phone, false);
-      }
-
-      if (isEmpty(fields.requirement)) {
-        markInvalid(fields.requirement, true);
-        isValid = false;
-      } else {
-        markInvalid(fields.requirement, false);
-      }
-
-      if (!isValid) {
-        var firstInvalid = form.querySelector(".field.invalid input, .field.invalid textarea");
-        if (firstInvalid) firstInvalid.focus();
-        return;
-      }
-
-      var name = fields.name.value.trim();
-      var business = fields.business ? fields.business.value.trim() : "";
-      var email = fields.email.value.trim();
-      var phone = fields.phone ? fields.phone.value.trim() : "";
-      var requirement = fields.requirement.value.trim();
-
-      var lines = [
-        "New enquiry from the ShrikantAI Innovation website",
-        "",
-        "Name: " + name
-      ];
-      if (business) lines.push("Business: " + business);
-      lines.push("Email: " + email);
-      if (phone) lines.push("Phone: " + phone);
-      lines.push("", "Project requirement:", requirement);
-
-      var message = lines.join("\n");
-      var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-
-      var successBox = form.querySelector(".form-success");
-      if (successBox) {
-        successBox.classList.add("show");
-        successBox.setAttribute("tabindex", "-1");
-        successBox.focus();
-      }
-
-      window.open(url, "_blank", "noopener");
-    });
-  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    status.className = ''; status.textContent = '';
+    var valid = true, first = null;
+    Object.keys(rules).forEach(function (n) { if (!check(n)) { valid = false; if (!first) first = form.elements[n]; } });
+    if (!valid) {
+      status.className = 'bad';
+      status.textContent = 'Some details are missing or incorrect. Fix the highlighted fields and send again.';
+      first.focus();
+      return;
+    }
+    var v = function (n) { return form.elements[n].value.trim(); };
+    var text = [
+      'Hello ShrikantAI Innovation,',
+      'I would like to discuss a project.',
+      '',
+      'Name: ' + v('name'),
+      'Company: ' + (v('company') || 'Not provided'),
+      'Email: ' + v('email'),
+      'Phone: ' + v('phone'),
+      'Service required: ' + v('service'),
+      '',
+      'Project description:',
+      v('message')
+    ].join('\n');
+    var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
+    var w = window.open(url, '_blank', 'noopener');
+    status.className = 'ok';
+    status.innerHTML = '';
+    if (w) {
+      status.textContent = 'WhatsApp has opened with your enquiry. Press send in WhatsApp to deliver it. Nothing is stored on this website.';
+    } else {
+      status.appendChild(document.createTextNode('Your browser blocked the WhatsApp window. '));
+      var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Open WhatsApp with your enquiry';
+      status.appendChild(a);
+    }
+  });
 })();
